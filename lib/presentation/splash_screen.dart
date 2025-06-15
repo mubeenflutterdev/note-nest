@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:note_nest/constant/app_colors.dart';
 import 'package:note_nest/constant/app_images.dart';
+import 'package:note_nest/presentation/home_screen.dart';
 import 'package:note_nest/presentation/signup_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -53,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 debugPrint("user click on splash screen button");
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => SignupScreen()),
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
                 );
               },
             ),

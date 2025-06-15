@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:note_nest/constant/app_colors.dart';
+import 'package:note_nest/presentation/home_screen.dart';
 import 'package:note_nest/presentation/login_Screen.dart';
 import 'package:note_nest/presentation/splash_screen.dart';
 
@@ -94,7 +95,7 @@ class _SignupScreenState extends State<SignupScreen> {
                  FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password).then((value) {
                    Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
                 );
                  },);
                 
