@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, must_be_immutable
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:note_nest/constant/app_colors.dart';
 import 'package:note_nest/presentation/login_Screen.dart';
@@ -87,10 +88,19 @@ class _SignupScreenState extends State<SignupScreen> {
               height: height,
               width: width,
               ontap: () {
-                Navigator.push(
+                String email = emailControler.text.trim();
+                var password = passwordControler.text.trim();
+               try{
+                 FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password).then((value) {
+                   Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => LoginScreen()),
                 );
+                 },);
+                
+               }catch(e){
+                debugPrint(e.toString());
+               }
               },
             ),
             SizedBox(height: height * 0.029),

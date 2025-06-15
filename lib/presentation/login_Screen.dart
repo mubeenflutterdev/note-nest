@@ -85,21 +85,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   var password = passwordControler.text.trim();
                   User? currentUser = FirebaseAuth.instance.currentUser;
                   try {
+                    FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then((value) {
+                      
+                    },);
                     FirebaseAuth.instance
-                        .createUserWithEmailAndPassword(
+                        .signInWithEmailAndPassword(
                           email: email,
                           password: password,
                         )
-                        .then((value) async {
-                          await FirebaseFirestore.instance
-                              .collection("users")
-                              .doc()
-                              .set({
-                                'Email:': email,
-                                'Password:': password.toString(),
-                                'user': currentUser,
-                                'created_At': DateTime.now(),
-                              });
+                        .then((value)  {
+                        
                           debugPrint("Created");
 
                           Navigator.pushReplacement(
