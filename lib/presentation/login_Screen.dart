@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:note_nest/constant/app_colors.dart';
 import 'package:note_nest/constant/app_images.dart';
+import 'package:note_nest/presentation/forget_password_screen.dart';
 import 'package:note_nest/presentation/home_screen.dart';
 import 'package:note_nest/presentation/signup_screen.dart';
 import 'package:note_nest/presentation/splash_screen.dart';
@@ -67,13 +68,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 controler: passwordControler,
               ),
               SizedBox(height: height * 0.02),
-              Text(
-                'Forget Password',
-                style: TextStyle(
-                  color: AppColors().buttonBackGround,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+             GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ForgetPasswordScreen()),
+                    ),
+                    child: Text(
+                      'Forget Password!',
+                      style: TextStyle(
+                        color: AppColors().buttonBackGround,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+            
+              
               // sized box
               SizedBox(height: height * 0.04),
               ButtonComponent(
@@ -85,16 +94,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   var password = passwordControler.text.trim();
                   User? currentUser = FirebaseAuth.instance.currentUser;
                   try {
-                    FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then((value) {
-                      
-                    },);
                     FirebaseAuth.instance
                         .signInWithEmailAndPassword(
                           email: email,
                           password: password,
                         )
-                        .then((value)  {
-                        
+                        .then((value) {});
+                    FirebaseAuth.instance
+                        .signInWithEmailAndPassword(
+                          email: email,
+                          password: password,
+                        )
+                        .then((value) {
                           debugPrint("Created");
 
                           Navigator.pushReplacement(
@@ -114,13 +125,19 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Already have an account ?'),
+                  Text('Dont have an account ?'),
                   SizedBox(width: 5),
-                  Text(
-                    'Sign In',
-                    style: TextStyle(
-                      color: AppColors().buttonBackGround,
-                      fontWeight: FontWeight.bold,
+                  GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignupScreen()),
+                    ),
+                    child: Text(
+                      'Sign Up',
+                      style: TextStyle(
+                        color: AppColors().buttonBackGround,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],

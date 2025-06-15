@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:note_nest/constant/app_colors.dart';
 import 'package:note_nest/constant/app_images.dart';
@@ -14,6 +15,13 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+   static User? user;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    user = FirebaseAuth.instance.currentUser;
+  }
   @override
   Widget build(BuildContext context) {
     //// Media query for responsive design
@@ -54,7 +62,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 debugPrint("user click on splash screen button");
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                  MaterialPageRoute(builder: (context) => user != null ? HomeScreen() : SignupScreen()),
                 );
               },
             ),

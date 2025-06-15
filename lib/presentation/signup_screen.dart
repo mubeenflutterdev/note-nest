@@ -59,8 +59,6 @@ class _SignupScreenState extends State<SignupScreen> {
               height: height,
               width: width,
               controler: emailControler,
-
-              
             ),
 
             /// sized box
@@ -70,7 +68,6 @@ class _SignupScreenState extends State<SignupScreen> {
               height: height,
               width: width,
               controler: passwordControler,
-
             ),
 
             /// sized box
@@ -80,7 +77,6 @@ class _SignupScreenState extends State<SignupScreen> {
               height: height,
               width: width,
               controler: ConfromControler,
-
             ),
             // sized box
             SizedBox(height: height * 0.09),
@@ -91,17 +87,21 @@ class _SignupScreenState extends State<SignupScreen> {
               ontap: () {
                 String email = emailControler.text.trim();
                 var password = passwordControler.text.trim();
-               try{
-                 FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password).then((value) {
-                   Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
-                );
-                 },);
-                
-               }catch(e){
-                debugPrint(e.toString());
-               }
+                try {
+                  FirebaseAuth.instance
+                      .createUserWithEmailAndPassword(
+                        email: email,
+                        password: password,
+                      )
+                      .then((value) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                        );
+                      });
+                } catch (e) {
+                  debugPrint(e.toString());
+                }
               },
             ),
             SizedBox(height: height * 0.029),
@@ -111,11 +111,17 @@ class _SignupScreenState extends State<SignupScreen> {
               children: [
                 Text('Already have an account ?'),
                 SizedBox(width: 5),
-                Text(
-                  'Sign In',
-                  style: TextStyle(
-                    color: AppColors().buttonBackGround,
-                    fontWeight: FontWeight.bold,
+                GestureDetector(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                  ),
+                  child: Text(
+                    'Sign In',
+                    style: TextStyle(
+                      color: AppColors().buttonBackGround,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],

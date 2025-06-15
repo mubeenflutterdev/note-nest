@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:note_nest/constant/app_colors.dart';
+import 'package:note_nest/presentation/login_Screen.dart';
 import 'package:note_nest/presentation/signup_screen.dart';
 import 'package:note_nest/presentation/splash_screen.dart';
 
@@ -49,6 +51,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               }
             },
+          ),
+          Card(
+            color: AppColors().buttonBackGround,
+            child: TextButton(
+              onPressed: () async {
+                try  {
+
+                 await FirebaseAuth.instance.signOut().then((value){
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
+                 });
+                } catch (e) {
+                  debugPrint(e.toString());
+                }
+              },
+              child: Text('Logout'),
+            ),
           ),
         ],
       ),
