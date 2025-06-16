@@ -1,10 +1,11 @@
-// ignore_for_file: non_constant_identifier_names, must_be_immutable
+// ignore_for_file: non_constant_identifier_names, must_be_immutable, use_build_context_synchronously
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:note_nest/constant/app_colors.dart';
 import 'package:note_nest/presentation/home_screen.dart';
-import 'package:note_nest/presentation/login_Screen.dart';
+
+import 'package:note_nest/presentation/login_in_Screen.dart';
 import 'package:note_nest/presentation/splash_screen.dart';
 
 class SignupScreen extends StatefulWidget {

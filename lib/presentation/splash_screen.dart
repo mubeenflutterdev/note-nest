@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
    static User? user;
   @override
   void initState() {
-    // TODO: implement initState
+    
     super.initState();
     user = FirebaseAuth.instance.currentUser;
   }
@@ -62,7 +62,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 debugPrint("user click on splash screen button");
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => user != null ? HomeScreen() : SignupScreen()),
+                  MaterialPageRoute(builder: (context) =>  SignupScreen()),
                 );
               },
             ),
