@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(
             width: double.infinity,
             height: 229.h,
-            decoration: BoxDecoration(color: AppColors().profileBackGround),
+            decoration: BoxDecoration(color: AppColors.profileBackGround),
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text(
                     'Welcome , Oliva Grace',
                     style: TextStyle(
-                      color: AppColors().primaryColor,
+                      color: AppColors.primaryColor,
                       fontWeight: FontWeight.w700,
                       fontSize: 14.sp,
                     ),

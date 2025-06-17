@@ -95,12 +95,12 @@ class ButtonComponent extends StatelessWidget {
         child: Container(
           height: height * 0.1,
           width: double.infinity,
-          decoration: BoxDecoration(color: AppColors().buttonBackGround),
+          decoration: BoxDecoration(color: AppColors.buttonBackGround),
           child: Center(
             child: Text(
               text,
               style: TextStyle(
-                color: AppColors().primaryColor,
+                color: AppColors.primaryColor,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),

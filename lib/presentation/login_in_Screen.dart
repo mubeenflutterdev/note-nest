@@ -25,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
     TextEditingController emailControler = TextEditingController();
     TextEditingController passwordControler = TextEditingController();
     return Scaffold(
-      backgroundColor: AppColors().backgroundColor,
+      backgroundColor: AppColors.backgroundColor,
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -77,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Text(
                   'Forget Password!',
                   style: TextStyle(
-                    color: AppColors().buttonBackGround,
+                    color: AppColors.buttonBackGround,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -135,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Text(
                       'Sign Up',
                       style: TextStyle(
-                        color: AppColors().buttonBackGround,
+                        color: AppColors.buttonBackGround,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

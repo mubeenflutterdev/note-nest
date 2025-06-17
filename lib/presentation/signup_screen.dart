@@ -28,7 +28,7 @@ class _SignupScreenState extends State<SignupScreen> {
     TextEditingController ConfromControler = TextEditingController();
     final signUpProvider = context.read<SignupProvider>;
     return Scaffold(
-      backgroundColor: AppColors().backgroundColor,
+      backgroundColor: AppColors.backgroundColor,
       body: Center(
         child: Column(
           children: [
@@ -125,7 +125,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: Text(
                     'Sign In',
                     style: TextStyle(
-                      color: AppColors().buttonBackGround,
+                      color: AppColors.buttonBackGround,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -168,7 +168,7 @@ class _TextInputFieldComponentState extends State<TextInputFieldComponent> {
         controller: widget.controler,
         decoration: InputDecoration(
           filled: true,
-          fillColor: AppColors().primaryColor,
+          fillColor: AppColors.primaryColor,
           contentPadding: EdgeInsets.symmetric(
             vertical: widget.height * .015,
             horizontal: widget.width * .08,

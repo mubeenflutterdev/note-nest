@@ -13,10 +13,7 @@ class ForgetPasswordScreen extends StatelessWidget {
           Center(
             child: Text(
               'Under Working Comming Soon,,,,',
-              style: TextStyle(
-                fontSize: 30,
-                color: AppColors().buttonBackGround,
-              ),
+              style: TextStyle(fontSize: 30, color: AppColors.buttonBackGround),
             ),
           ),
         ],
