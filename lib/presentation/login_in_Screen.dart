@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: height * .02),
 
               ////// image of login
-              Image.asset(AppImages().loginImage),
+              Image.asset(AppImages.loginImage),
 
               /// sized box
               SizedBox(height: height * 0.02),
@@ -67,21 +67,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 controler: passwordControler,
               ),
               SizedBox(height: height * 0.02),
-             GestureDetector(
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ForgetPasswordScreen()),
-                    ),
-                    child: Text(
-                      'Forget Password!',
-                      style: TextStyle(
-                        color: AppColors().buttonBackGround,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+              GestureDetector(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ForgetPasswordScreen(),
                   ),
-            
-              
+                ),
+                child: Text(
+                  'Forget Password!',
+                  style: TextStyle(
+                    color: AppColors().buttonBackGround,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+
               // sized box
               SizedBox(height: height * 0.04),
               ButtonComponent(
@@ -147,7 +148,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
-
-  
 }

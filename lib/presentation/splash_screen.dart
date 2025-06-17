@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:note_nest/constant/app_colors.dart';
 import 'package:note_nest/constant/app_images.dart';
-import 'package:note_nest/presentation/home_screen.dart';
 import 'package:note_nest/presentation/signup_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -15,13 +14,13 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-   static User? user;
+  static User? user;
   @override
   void initState() {
-    
     super.initState();
     user = FirebaseAuth.instance.currentUser;
   }
+
   @override
   Widget build(BuildContext context) {
     //// Media query for responsive design
@@ -34,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           children: [
             SizedBox(height: height * .2),
-            Image.asset(AppImages().splashImage),
+            Image.asset(AppImages.splashImage),
 
             /// after image
             SizedBox(height: height * .1),
@@ -62,7 +61,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 debugPrint("user click on splash screen button");
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) =>  SignupScreen()),
+                  MaterialPageRoute(builder: (context) => SignupScreen()),
                 );
               },
             ),

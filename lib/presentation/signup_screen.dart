@@ -1,12 +1,13 @@
 // ignore_for_file: non_constant_identifier_names, must_be_immutable, use_build_context_synchronously
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:note_nest/constant/app_colors.dart';
-import 'package:note_nest/presentation/home_screen.dart';
 
 import 'package:note_nest/presentation/login_in_Screen.dart';
 import 'package:note_nest/presentation/splash_screen.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/feature_provider.dart/signup_provider.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -25,6 +26,7 @@ class _SignupScreenState extends State<SignupScreen> {
     TextEditingController nameControler = TextEditingController();
     TextEditingController passwordControler = TextEditingController();
     TextEditingController ConfromControler = TextEditingController();
+    final signUpProvider = context.read<SignupProvider>;
     return Scaffold(
       backgroundColor: AppColors().backgroundColor,
       body: Center(
@@ -84,25 +86,28 @@ class _SignupScreenState extends State<SignupScreen> {
             ButtonComponent(
               text: "Register",
               height: height,
-              width: width,
-              ontap: () {
-                String email = emailControler.text.trim();
-                var password = passwordControler.text.trim();
-                try {
-                  FirebaseAuth.instance
-                      .createUserWithEmailAndPassword(
-                        email: email,
-                        password: password,
-                      )
-                      .then((value) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => HomeScreen()),
-                        );
-                      });
-                } catch (e) {
-                  debugPrint(e.toString());
-                }
+              width: width, 
+              ontap: () async {
+                String email = emailControler.text.toString();
+                var password = passwordControler.text.toString();
+                String name = nameControler.text.trim();
+                signUpProvider().signInUser(email, password, name);
+
+                // try {
+                //   FirebaseAuth.instance
+                //       .createUserWithEmailAndPassword(
+                //         email: email,
+                //         password: password,
+                //       )
+                //       .then((value) {
+                //         Navigator.push(
+                //           context,
+                //           MaterialPageRoute(builder: (context) => HomeScreen()),
+                //         );
+                //       });
+                // } catch (e) {
+                //   debugPrint(e.toString());
+                // }
               },
             ),
             SizedBox(height: height * 0.029),

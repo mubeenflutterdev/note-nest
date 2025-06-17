@@ -1,8 +1,9 @@
-// ignore_for_file: non_constant_identifier_names, use_build_context_synchronously
+// ignore_for_file: non_constant_identifier_names, use_build_context_synchronously, avoid_unnecessary_containers
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:note_nest/constant/app_colors.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -13,47 +14,76 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-    final double height = size.height;
-    final double width = size.width;
+    // final signUpProvider = context.read<SignupProvider>;
+
     // TextEditingController note_controler = TextEditingController();
     return Scaffold(
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+
         children: [
-          StreamBuilder(
-            stream: FirebaseFirestore.instance
-                .collection('notes')
-                .doc('bwHen79qdSADgtvkmqEc')
-                .snapshots(),
-            builder: (context, snapshot) {
-              try {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CupertinoActivityIndicator();
-                }
-                if (snapshot.hasError) {
-                  Text("Something Went Wrong  Go to console for details");
-                }
-                if (snapshot.hasData && snapshot.data != null) {
-                  return Text(snapshot.data!['note'].toString());
-                  // return Expanded(
-                  //   child: (
-                  //     ListView.builder(
-                  //       itemCount: 1,
-                  //       itemBuilder: (context, index) {
-                  //         return ListTile(title: Text(snapshot.data![index]['Note'].toString()),);
-
-                  //     },)
-                  //   ),
-
-                  // );
-                }
-              } catch (e) {
-                debugPrint(e.toString());
-              }
-
-              return Container();
-            },
+          Container(
+            width: double.infinity,
+            height: 229.h,
+            decoration: BoxDecoration(color: AppColors().profileBackGround),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CircleAvatar(
+                    radius: 50.r,
+                    backgroundImage: AssetImage('assets/images/avatar.png'),
+                  ),
+                  // SizedBox(height: 50.h),
+                  Text(
+                    'Welcome , Oliva Grace',
+                    style: TextStyle(
+                      color: AppColors().primaryColor,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 14.sp,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Good Afternoon',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 12.sp,
+                  ),
+                ),
+
+                Text(
+                  'Task List',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 12.sp,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Expanded(
+          //   child: ListView.builder(
+          //     shrinkWrap: true,
+          //     itemBuilder: (context, index) => ListTile(
+          //       title: Text('titlej akfj ajd al aj a'),
+          //       subtitle: Text(
+          //         'this is subtitle',
+          //         maxLines: 2,
+          //         overflow: TextOverflow.ellipsis,
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
