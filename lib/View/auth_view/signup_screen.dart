@@ -26,7 +26,7 @@ class _SignupScreenState extends State<SignupScreen> {
     TextEditingController nameControler = TextEditingController();
     TextEditingController passwordControler = TextEditingController();
     TextEditingController ConfromControler = TextEditingController();
-    final authProvider = context.read<AuthProvider>;
+    final authProvider = context.read<AuthenticationProvider>;
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: Center(
@@ -92,30 +92,10 @@ class _SignupScreenState extends State<SignupScreen> {
                   String email = emailControler.text.toString();
                   var password = passwordControler.text.toString();
                   String name = nameControler.text.trim();
-                  authProvider().signUpUser(email, password, name).then((_) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()),
-                    );
-                  });
-
-                  // try {
-                  //   FirebaseAuth.instance
-                  //       .createUserWithEmailAndPassword(
-                  //         email: email,
-                  //         password: password,
-                  //       )
-                  //       .then((value) {
-                  //         Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(builder: (context) => HomeScreen()),
-                  //         );
-                  //       });
-                  // } catch (e) {
-                  //   debugPrint(e.toString());
-                  // }
+                  authProvider().signUpUser(context, email, password, name);
                 },
               ),
+
               SizedBox(height: height * 0.029),
 
               Row(

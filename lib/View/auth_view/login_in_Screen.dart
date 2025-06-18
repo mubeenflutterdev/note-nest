@@ -8,6 +8,8 @@ import 'package:note_nest/View/auth_view/forget_password_screen.dart';
 import 'package:note_nest/View/user_view/home_screen.dart';
 import 'package:note_nest/View/auth_view/signup_screen.dart';
 import 'package:note_nest/View/auth_view/splash_screen.dart';
+import 'package:note_nest/provider/feature_provider.dart/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -22,8 +24,10 @@ class _LoginScreenState extends State<LoginScreen> {
     final Size size = MediaQuery.of(context).size;
     final double height = size.height;
     final double width = size.width;
-    TextEditingController emailControler = TextEditingController();
-    TextEditingController passwordControler = TextEditingController();
+    TextEditingController _emailControler = TextEditingController();
+    TextEditingController _passwordControler = TextEditingController();
+    AuthenticationProvider authProvider = context
+        .read<AuthenticationProvider>();
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: Center(
@@ -55,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 text: 'Enter your email ',
                 height: height,
                 width: width,
-                controler: emailControler,
+                controler: _emailControler,
               ),
 
               /// sized box
@@ -64,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 text: 'Enter your password',
                 height: height,
                 width: width,
-                controler: passwordControler,
+                controler: _passwordControler,
               ),
               SizedBox(height: height * 0.02),
               GestureDetector(
@@ -85,41 +89,23 @@ class _LoginScreenState extends State<LoginScreen> {
 
               // sized box
               SizedBox(height: height * 0.04),
-              ButtonComponent(
-                text: "Login",
-                height: height,
-                width: width,
-                ontap: () {
-                  var email = emailControler.text.trim();
-                  var password = passwordControler.text.trim();
-                  User? currentUser = FirebaseAuth.instance.currentUser;
-                  try {
-                    FirebaseAuth.instance
-                        .signInWithEmailAndPassword(
-                          email: email,
-                          password: password,
-                        )
-                        .then((value) {});
-                    FirebaseAuth.instance
-                        .signInWithEmailAndPassword(
-                          email: email,
-                          password: password,
-                        )
-                        .then((value) {
-                          debugPrint("Created");
 
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomeScreen(),
-                            ),
-                          );
-                        });
-                  } catch (e) {
-                    print(e.toString());
-                  }
-                },
+              Consumer<AuthenticationProvider>(
+                builder: (context, provider, child) => ButtonComponent(
+                  text: "Login",
+                  height: height,
+                  isLoading: provider.isLoading,
+                  width: width,
+                  ontap: () {
+                    provider.signInUser(
+                      context,
+                      _emailControler.text.trim(),
+                      _passwordControler.text,
+                    );
+                  },
+                ),
               ),
+
               SizedBox(height: height * 0.029),
 
               Row(
@@ -128,10 +114,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   Text('Dont have an account ?'),
                   SizedBox(width: 5),
                   GestureDetector(
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignupScreen()),
-                    ),
+                    onTap: () {
+                      authProvider.signInUser(
+                        context,
+                        _emailControler.text.trim().toString(),
+                        _passwordControler.text.toString(),
+                      );
+                    },
                     child: Text(
                       'Sign Up',
                       style: TextStyle(

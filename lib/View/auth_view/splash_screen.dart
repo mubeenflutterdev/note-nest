@@ -77,6 +77,7 @@ class ButtonComponent extends StatelessWidget {
   String text;
   double height;
   double width;
+  bool? isLoading;
   final VoidCallback ontap;
   ButtonComponent({
     super.key,
@@ -84,6 +85,7 @@ class ButtonComponent extends StatelessWidget {
     required this.height,
     required this.width,
     required this.ontap,
+    this.isLoading,
   });
 
   @override
@@ -97,14 +99,16 @@ class ButtonComponent extends StatelessWidget {
           width: double.infinity,
           decoration: BoxDecoration(color: AppColors.buttonBackGround),
           child: Center(
-            child: Text(
-              text,
-              style: TextStyle(
-                color: AppColors.primaryColor,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            child: isLoading == true
+                ? CircularProgressIndicator(color: AppColors.primaryColor)
+                : Text(
+                    text,
+                    style: TextStyle(
+                      color: AppColors.primaryColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
           ),
         ),
       ),

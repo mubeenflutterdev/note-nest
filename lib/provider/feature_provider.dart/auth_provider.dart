@@ -1,29 +1,45 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:note_nest/View/user_view/home_screen.dart';
+import 'package:note_nest/utils/toast_utils.dart';
 
-class AuthProvider with ChangeNotifier {
+class AuthenticationProvider with ChangeNotifier {
   final auth = FirebaseAuth.instance;
-  static bool isLoading = false;
+  bool isLoading = false;
 
   // function for signInuser
-  Future signInUser(String email, String password) async {
+  Future signInUser(BuildContext context, email, String password) async {
     try {
       isLoading = true;
-      FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      notifyListeners();
+     await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then(
+            (value) => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+            ),
+          );
     } catch (e) {
-      debugPrint(e.toString());
+      ToastUtil.showToast(
+        context,
+        message: e.toString(),
+        type: ToastType.error,
+      );
     } finally {
       isLoading = false;
+      notifyListeners();
     }
   }
 
   //function for Creating user
-  Future signUpUser(String email, String password, String name) async {
+  Future signUpUser(
+    BuildContext context,
+    String email,
+    String password,
+    String name,
+  ) async {
     /// for showing progress indicater if state is loading
     bool isLoading = false;
 
@@ -41,14 +57,21 @@ class AuthProvider with ChangeNotifier {
           .collection('users')
           .doc(userId.toString());
 
-      docRef.set({
-        'userId': userId.toString(),
-        'name': name.toString(),
-        'email': email.toString(),
-        'img': '',
-      });
+      docRef
+          .set({
+            'userId': userId.toString(),
+            'name': name.toString(),
+            'email': email.toString(),
+            'img': '',
+          })
+          .then(
+            (_) => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+            ),
+          );
     } catch (e) {
-      debugPrint(e.toString());
+      ToastUtil.showToast(context, message: e.toString());
     }
     // this will run after try or catch both
     finally {

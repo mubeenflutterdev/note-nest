@@ -18,12 +18,13 @@ class NoteProvider with ChangeNotifier {
           .where('userId', isEqualTo: _userId)
           .get();
 
+      print(snapshot.docs.first['title']);
       List<NoteModel> fetchNotes = snapshot.docs.map((doc) {
         return NoteModel.fromFirestore(doc);
       }).toList();
-
-      noteList.addAll([fetchNotes]);
-      print(noteList.toString());
+      print(fetchNotes);
+      // noteList.addAll([fetchNotes]);
+      // print(noteList[0].toString());
     } catch (_e) {
       ToastUtil.showToast(
         context,
@@ -34,25 +35,28 @@ class NoteProvider with ChangeNotifier {
   }
 
   //
-  Future addNote(BuildContext context, String title, String description , 
-  string) async {
+  Future addNote(BuildContext context, String title, String description) async {
     try {
+      print('hello');
       _isLoading = true;
 
       /// current user
       String userId = FirebaseAuth.instance.currentUser!.uid;
 
       /// docRefrence
-      DocumentReference docRef = await _firestore
-          .collection('notes')
-          .doc(userId.toString());
-      docRef.set({
-        "title ": title.toString(),
-        "dateTime ": DateTime.now().toString(),
-        "description": description.toString(),
-        "userId ": userId.toString(),
-        "docId ": docRef.id.toString(),
-      });
+      DocumentReference docRef = await _firestore.collection('notes').doc();
+      print(
+        'this is doc ref****************************${docRef.id.toString()}',
+      );
+      NoteModel noteModel = NoteModel(
+        title: title,
+        description: description,
+        dateTime: DateTime.now().toString(),
+        userId: userId.toString(),
+        docId: docRef.id.toString(),
+      );
+
+      docRef.set(noteModel.toFirestore());
     } catch (e) {
       ToastUtil.showToast(
         context,

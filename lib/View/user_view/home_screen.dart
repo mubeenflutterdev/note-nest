@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:note_nest/View/auth_view/login_in_Screen.dart';
+import 'package:note_nest/View/user_view/add_note_screen.dart';
 import 'package:note_nest/constant/app_colors.dart';
 import 'package:note_nest/provider/feature_provider.dart/auth_provider.dart';
 import 'package:note_nest/provider/feature_provider.dart/note_provider.dart';
@@ -25,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = context.read<AuthProvider>();
+    final authProvider = context.read<AuthenticationProvider>();
     final noteProvider = context.read<NoteProvider>();
 
     final List notesList = [
@@ -64,10 +65,6 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     ];
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.add, color: AppColors.primaryColor),
-      ),
       body: Column(
         children: [
           Container(
@@ -174,6 +171,17 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.buttonBackGround,
+        onPressed: () {
+          noteProvider.getNote(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddNoteScreen()),
+          );
+        },
+        child: Icon(Icons.add, color: AppColors.primaryColor),
       ),
     );
   }

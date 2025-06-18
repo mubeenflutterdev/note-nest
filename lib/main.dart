@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:note_nest/View/auth_view/splash_screen.dart';
 import 'package:note_nest/View/user_view/home_screen.dart';
 import 'package:note_nest/firebase_options.dart';
 
@@ -16,7 +17,7 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => AuthenticationProvider()),
         ChangeNotifierProvider(create: (_) => NoteProvider()),
       ],
 
@@ -44,7 +45,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: MaterialApp(home: HomeScreen(), debugShowCheckedModeBanner: false),
+      child: MaterialApp(home: SplashScreen(), debugShowCheckedModeBanner: false),
     );
   }
 }
