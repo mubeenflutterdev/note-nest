@@ -176,10 +176,10 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: AppColors.buttonBackGround,
         onPressed: () {
           noteProvider.getNote(context);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AddNoteScreen()),
-          );
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => AddNoteScreen()),
+          // );
         },
         child: Icon(Icons.add, color: AppColors.primaryColor),
       ),
