@@ -1,11 +1,29 @@
-// ignore_for_file: unused_local_variable
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-class SignupProvider with ChangeNotifier {
-  Future signInUser(String email, String password, String name) async {
+class AuthProvider with ChangeNotifier {
+  final auth = FirebaseAuth.instance;
+  static bool isLoading = false;
+
+  // function for signInuser
+  Future signInUser(String email, String password) async {
+    try {
+      isLoading = true;
+      FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  //function for Creating user
+  Future signUpUser(String email, String password, String name) async {
     /// for showing progress indicater if state is loading
     bool isLoading = false;
 
@@ -35,6 +53,15 @@ class SignupProvider with ChangeNotifier {
     // this will run after try or catch both
     finally {
       isLoading = false;
+    }
+  }
+
+  /// function for signout user
+  Future signOutProvider() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+    } catch (e) {
+      debugPrint(e.toString());
     }
   }
 }
