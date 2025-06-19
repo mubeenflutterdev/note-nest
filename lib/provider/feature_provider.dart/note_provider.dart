@@ -6,63 +6,78 @@ import 'package:note_nest/utils/toast_utils.dart';
 
 class NoteProvider with ChangeNotifier {
   bool _isLoading = false;
-  final _firestore = FirebaseFirestore.instance;
+  bool get isLoading => _isLoading;
 
-  final List noteList = [];
-  final _userId = FirebaseAuth.instance.currentUser?.uid;
-  Future getNote(BuildContext context) async {
+  final _firestore = FirebaseFirestore.instance;
+  final List<NoteModel> noteList = [];
+
+  final String? _userId = FirebaseAuth.instance.currentUser?.uid;
+
+  oninIt(BuildContext context) {
+    getNotes(context);
+  }
+
+  Future<void> getNotes(BuildContext context) async {
     _isLoading = true;
+    notifyListeners();
+
     try {
-      QuerySnapshot snapshot = await _firestore
+      noteList.clear();
+      final querySnapshot = await _firestore
           .collection('notes')
           .where('userId', isEqualTo: _userId)
           .get();
 
-      print(snapshot.docs.first['title']);
-      List<NoteModel> fetchNotes = snapshot.docs.map((doc) {
-        return NoteModel.fromFirestore(doc);
-      }).toList();
-      print(fetchNotes);
-      // noteList.addAll([fetchNotes]);
-      // print(noteList[0].toString());
-    } catch (_e) {
-      ToastUtil.showToast(
-        context,
-        message: _e.toString(),
-        type: ToastType.error,
-      );
-    }
-  }
-
-  //
-  Future addNote(BuildContext context, String title, String description) async {
-    try {
-      print('hello');
-      _isLoading = true;
-
-      /// current user
-      String userId = FirebaseAuth.instance.currentUser!.uid;
-
-      /// docRefrence
-      DocumentReference docRef = await _firestore.collection('notes').doc();
-      print(
-        'this is doc ref****************************${docRef.id.toString()}',
-      );
-      NoteModel noteModel = NoteModel(
-        title: title,
-        description: description,
-        dateTime: DateTime.now().toString(),
-        userId: userId.toString(),
-        docId: docRef.id.toString(),
-      );
-
-      docRef.set(noteModel.toFirestore());
+      for (var doc in querySnapshot.docs) {
+        noteList.add(NoteModel.fromFirestore(doc.data(), doc.id));
+      }
     } catch (e) {
       ToastUtil.showToast(
         context,
         message: e.toString(),
         type: ToastType.error,
       );
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  /// Add a new note
+  Future<void> addNote(
+    BuildContext context,
+    String title,
+    String description,
+  ) async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+
+      String userId = FirebaseAuth.instance.currentUser!.uid;
+      DocumentReference docRef = _firestore.collection('notes').doc();
+
+      NoteModel noteModel = NoteModel(
+        docId: docRef.id,
+        userId: userId,
+        title: title,
+        description: description,
+        dateTime: DateTime.now().toString(),
+      );
+      await docRef.set(noteModel.toFirestore()).then((_) {
+        Navigator.pop(context);
+      });
+
+      // Optionally, refresh the list
+      await getNotes(context);
+    } catch (e) {
+      ToastUtil.showToast(
+        context,
+        message: e.toString(),
+        type: ToastType.error,
+      );
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
   }
 }

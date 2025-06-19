@@ -25,45 +25,18 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      Provider.of<NoteProvider>(context, listen: false).getNotes(context);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final authProvider = context.read<AuthenticationProvider>();
     final noteProvider = context.read<NoteProvider>();
 
-    final List notesList = [
-      {
-        'title': 'Home Work',
-        'description':
-            'Do Math hamoe work and eat breakfast ,Do Math hamoe work and eat breakfast ,Do Math hamoe work and eat breakfast ,Do Math hamoe work and eat breakfast ,Do Math hamoe work and eat breakfast ,Do Math hamoe work and eat breakfast , ',
-        'date': '5/5/2023',
-        'docId': 'djfahahhahdsfh',
-      },
-
-      {
-        'title': 'this is dummy title',
-        'description': 'this is dummy description',
-        'date': '5/5/2023',
-        'docId': 'djfahahhahdsfh',
-      },
-
-      {
-        'title': 'this is dummy title',
-        'description': 'this is dummy description',
-        'date': '5/5/2023',
-        'docId': 'djfahahhahdsfh',
-      },
-      {
-        'title': 'this is dummy title',
-        'description': 'this is dummy description',
-        'date': '5/5/2023',
-        'docId': 'djfahahhahdsfh',
-      },
-      {
-        'title': 'this is dummy title',
-        'description': 'this is dummy description',
-        'date': '5/5/2023',
-        'docId': 'djfahahhahdsfh',
-      },
-    ];
     return Scaffold(
       body: Column(
         children: [
@@ -90,6 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: Icon(Icons.logout, color: AppColors.primaryColor),
                   ),
                 ),
+
                 CircleAvatar(
                   radius: 50.r,
                   backgroundImage: AssetImage('assets/images/avatar.png'),
@@ -139,35 +113,48 @@ class _HomeScreenState extends State<HomeScreen> {
           // ),
           // Uncomment to show notes list
           Expanded(
-            child: ListView.builder(
-              itemCount: notesList.length, // Adjust based on your model
-              itemBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Card(
-                  color: AppColors.backgroundColor,
-                  child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: 20.w,
-                      vertical: 15.h,
-                    ),
-                    title: Center(
-                      child: Text(
-                        notesList[index]['title'],
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    subtitle: Center(
-                      child: Text(
-                        notesList[index]['description'],
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
+            child: Consumer<NoteProvider>(
+              builder: (context, provider, child) {
+                if (provider.isLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (provider.noteList.isNotEmpty) {
+                  return ListView.builder(
+                    itemCount: noteProvider
+                        .noteList
+                        .length, // Adjust based on your model
+                    itemBuilder: (context, index) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Card(
+                        color: AppColors.backgroundColor,
+                        child: ListTile(
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 20.w,
+                            vertical: 15.h,
+                          ),
+                          title: Center(
+                            child: Text(
+                              provider.noteList[index].title,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          subtitle: Center(
+                            child: Text(
+                              provider.noteList[index].description,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
 
-                        textAlign: TextAlign.center,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
+                  );
+                } else if (provider.noteList == null) {
+                  return const Center(child: Text('No data found.'));
+                }
+                return Container();
+              },
             ),
           ),
         ],
@@ -175,11 +162,11 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.buttonBackGround,
         onPressed: () {
-          noteProvider.getNote(context);
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => AddNoteScreen()),
-          // );
+          // noteProvider.getNotes(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddNoteScreen()),
+          );
         },
         child: Icon(Icons.add, color: AppColors.primaryColor),
       ),

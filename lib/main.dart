@@ -1,7 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:note_nest/View/auth_view/splash_screen.dart';
+import 'package:note_nest/View/auth_view/signup_screen.dart';
 import 'package:note_nest/View/user_view/home_screen.dart';
 import 'package:note_nest/firebase_options.dart';
 
@@ -42,10 +43,14 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  var user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: MaterialApp(home: SplashScreen(), debugShowCheckedModeBanner: false),
+      child: MaterialApp(
+        home: user == null && user == '' ? SignupScreen() : HomeScreen(),
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }
