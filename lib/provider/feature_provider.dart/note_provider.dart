@@ -6,59 +6,71 @@ import 'package:note_nest/utils/toast_utils.dart';
 
 class NoteProvider with ChangeNotifier {
   bool _isLoading = false;
-  final _firestore = FirebaseFirestore.instance;
+  bool get isLoading => _isLoading;
 
-  final List noteList = [];
-  final _userId = FirebaseAuth.instance.currentUser?.uid;
-  Future getNote(BuildContext context) async {
+  final _firestore = FirebaseFirestore.instance;
+  final List<NoteModel> noteList = [];
+
+  final String? _userId = FirebaseAuth.instance.currentUser?.uid;
+
+  Future<void> getNotes(BuildContext context) async {
     _isLoading = true;
+    notifyListeners();
+
     try {
-      QuerySnapshot snapshot = await _firestore
+      noteList.clear();
+      final querySnapshot = await _firestore
           .collection('notes')
           .where('userId', isEqualTo: _userId)
           .get();
 
-      List<NoteModel> fetchNotes = snapshot.docs.map((doc) {
-        return NoteModel.fromFirestore(doc);
-      }).toList();
-
-      noteList.addAll([fetchNotes]);
-      print(noteList.toString());
-    } catch (_e) {
-      ToastUtil.showToast(
-        context,
-        message: _e.toString(),
-        type: ToastType.error,
-      );
-    }
-  }
-
-  //
-  Future addNote(BuildContext context, String title, String description , 
-  string) async {
-    try {
-      _isLoading = true;
-
-      /// current user
-      String userId = FirebaseAuth.instance.currentUser!.uid;
-
-      /// docRefrence
-      DocumentReference docRef = await _firestore
-          .collection('notes')
-          .doc(userId.toString());
-      docRef.set({
-        "title ": title.toString(),
-        "dateTime ": DateTime.now().toString(),
-        "description": description.toString(),
-        "userId ": userId.toString(),
-        "docId ": docRef.id.toString(),
-      });
+      for (var doc in querySnapshot.docs) {
+        noteList.add(NoteModel.fromFirestore(doc.data(), doc.id));
+      }
     } catch (e) {
       ToastUtil.showToast(
         context,
         message: e.toString(),
         type: ToastType.error,
       );
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  /// Add a new note
+  Future<void> addNote(
+    BuildContext context,
+    String title,
+    String description,
+  ) async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+
+      String userId = FirebaseAuth.instance.currentUser!.uid;
+      DocumentReference docRef = _firestore.collection('notes').doc();
+
+      await docRef.set({
+        "title": title,
+        "description": description,
+        "dateTime": DateTime.now().toIso8601String(),
+        "userId": userId,
+        "docId": docRef.id,
+      });
+
+      // Optionally, refresh the list
+      await getNotes(context);
+    } catch (e) {
+      ToastUtil.showToast(
+        context,
+        message: e.toString(),
+        type: ToastType.error,
+      );
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
   }
 }

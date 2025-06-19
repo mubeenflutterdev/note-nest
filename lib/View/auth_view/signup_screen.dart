@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:note_nest/constant/app_colors.dart';
-import 'package:note_nest/View/user_view/home_screen.dart';
+import 'package:note_nest/view/user_view/home_screen.dart';
 
-import 'package:note_nest/View/auth_view/login_in_Screen.dart';
-import 'package:note_nest/View/auth_view/splash_screen.dart';
+import 'package:note_nest/view/auth_view/login_in_Screen.dart';
 import 'package:note_nest/provider/feature_provider.dart/auth_provider.dart';
+import 'package:note_nest/widgets/buttons/button_component.dart';
 import 'package:provider/provider.dart';
 
 class SignupScreen extends StatefulWidget {

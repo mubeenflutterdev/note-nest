@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:note_nest/View/auth_view/signup_screen.dart';
+import 'package:note_nest/view/auth_view/signup_screen.dart';
 
 class AddNoteScreen extends StatelessWidget {
   AddNoteScreen({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:note_nest/View/auth_view/login_in_Screen.dart';
+import 'package:note_nest/view/auth_view/login_in_Screen.dart';
 import 'package:note_nest/constant/app_colors.dart';
 import 'package:note_nest/provider/feature_provider.dart/auth_provider.dart';
 import 'package:note_nest/provider/feature_provider.dart/note_provider.dart';
@@ -130,48 +130,49 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          // TextFormField(controller: _noteController),
-          // TextButton(
-          //   onPressed: () {
-          //     final noteText = _noteController.text.trim();
-          //     if (noteText.isNotEmpty) {
-          //       noteProvider.addNote(context, noteText);
-          //     }
-          //   },
-          //   child: Text('UPLOAD NOTE'),
-          // ),
-          // Uncomment to show notes list
-          Expanded(
-            child: ListView.builder(
-              itemCount: notesList.length, // Adjust based on your model
-              itemBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Card(
-                  color: AppColors.backgroundColor,
-                  child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: 20.w,
-                      vertical: 15.h,
-                    ),
-                    title: Center(
-                      child: Text(
-                        notesList[index]['title'],
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    subtitle: Center(
-                      child: Text(
-                        notesList[index]['description'],
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
 
-                        textAlign: TextAlign.center,
+          Consumer<NoteProvider>(
+            builder: (context, provider, child) {
+              if (provider.isLoading == true) {
+                return CircularProgressIndicator(color: Colors.red);
+              } else if (provider.noteList.isEmpty) {
+                return Text('no data found ');
+              } else {
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount:
+                        provider.noteList.length, // Adjust based on your model
+                    itemBuilder: (context, index) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Card(
+                        color: AppColors.backgroundColor,
+                        child: ListTile(
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 20.w,
+                            vertical: 15.h,
+                          ),
+                          title: Center(
+                            child: Text(
+                              provider.noteList[index].title.toString(),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          subtitle: Center(
+                            child: Text(
+                              provider.noteList[index].description.toString(),
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
-            ),
+                );
+              }
+            },
           ),
         ],
       ),

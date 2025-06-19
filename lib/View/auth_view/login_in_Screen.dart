@@ -4,10 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:note_nest/constant/app_colors.dart';
 import 'package:note_nest/constant/app_images.dart';
-import 'package:note_nest/View/auth_view/forget_password_screen.dart';
-import 'package:note_nest/View/user_view/home_screen.dart';
-import 'package:note_nest/View/auth_view/signup_screen.dart';
-import 'package:note_nest/View/auth_view/splash_screen.dart';
+import 'package:note_nest/view/auth_view/forget_password_screen.dart';
+import 'package:note_nest/view/user_view/home_screen.dart';
+import 'package:note_nest/view/auth_view/signup_screen.dart';
+import 'package:note_nest/widgets/buttons/button_component.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
