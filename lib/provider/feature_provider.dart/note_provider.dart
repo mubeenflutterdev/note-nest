@@ -52,13 +52,14 @@ class NoteProvider with ChangeNotifier {
       String userId = FirebaseAuth.instance.currentUser!.uid;
       DocumentReference docRef = _firestore.collection('notes').doc();
 
-      await docRef.set({
-        "title": title,
-        "description": description,
-        "dateTime": DateTime.now().toIso8601String(),
-        "userId": userId,
-        "docId": docRef.id,
-      });
+      NoteModel noteModel = NoteModel(
+        docId: docRef.id,
+        userId: userId,
+        title: title,
+        description: description,
+        dateTime: DateTime.now().toString(),
+      );
+      await docRef.set(noteModel.toFirestore());
 
       // Optionally, refresh the list
       await getNotes(context);
