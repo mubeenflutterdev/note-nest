@@ -48,7 +48,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: MaterialApp(
-        home: user == null && user == '' ? SignupScreen() : HomeScreen(),
+        home: SignupScreen(),
+        // home: user == null && user == '' ? SignupScreen() : HomeScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );

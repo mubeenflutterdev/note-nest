@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:note_nest/View/auth_view/login_in_Screen.dart';
 import 'package:note_nest/View/user_view/add_note_screen.dart';
 import 'package:note_nest/constant/app_colors.dart';
+import 'package:note_nest/models/note_model.dart';
 import 'package:note_nest/provider/feature_provider.dart/auth_provider.dart';
 import 'package:note_nest/provider/feature_provider.dart/note_provider.dart';
 import 'package:provider/provider.dart';
@@ -80,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -123,13 +124,49 @@ class _HomeScreenState extends State<HomeScreen> {
                         .noteList
                         .length, // Adjust based on your model
                     itemBuilder: (context, index) => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      padding: EdgeInsets.symmetric(
+                        vertical: 10.h,
+                        horizontal: 20.w,
+                      ),
                       child: Card(
                         color: AppColors.backgroundColor,
                         child: ListTile(
                           contentPadding: EdgeInsets.symmetric(
-                            horizontal: 20.w,
+                            horizontal: 10.w,
                             vertical: 15.h,
+                          ),
+                          leading: IconButton(
+                            icon: Icon(
+                              Icons.edit,
+                              color: AppColors.profileBackGround,
+                            ),
+                            onPressed: () {
+                              final List<NoteModel> dataList =
+                                  provider.noteList;
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => AddNoteScreen(
+                                    description: dataList[index].description,
+                                    title: dataList[index].title,
+                                    edit: true,
+                                    docId: noteProvider.noteList[index].docId,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          trailing: IconButton(
+                            icon: Icon(
+                              Icons.delete,
+                              color: AppColors.profileBackGround,
+                            ),
+                            onPressed: () {
+                              noteProvider.deleteNote(
+                                context,
+                                provider.noteList[index].docId,
+                              );
+                            },
                           ),
                           title: Center(
                             child: Text(
@@ -165,7 +202,7 @@ class _HomeScreenState extends State<HomeScreen> {
           // noteProvider.getNotes(context);
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddNoteScreen()),
+            MaterialPageRoute(builder: (context) => AddNoteScreen(edit: false)),
           );
         },
         child: Icon(Icons.add, color: AppColors.primaryColor),

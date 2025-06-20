@@ -17,6 +17,7 @@ class NoteProvider with ChangeNotifier {
     getNotes(context);
   }
 
+  /// get notes
   Future<void> getNotes(BuildContext context) async {
     _isLoading = true;
     notifyListeners();
@@ -78,6 +79,44 @@ class NoteProvider with ChangeNotifier {
     } finally {
       _isLoading = false;
       notifyListeners();
+    }
+  }
+
+  // delete notes
+  Future<void> deleteNote(BuildContext context, docId) async {
+    try {
+      await _firestore.collection('notes').doc(docId).delete();
+      notifyListeners();
+      getNotes(context);
+    } catch (_e) {
+      ToastUtil.showToast(
+        context,
+        message: _e.toString(),
+        type: ToastType.error,
+      );
+    }
+  }
+
+  // delete notes
+  Future<void> editeNote(
+    BuildContext context,
+    String docId,
+    String title,
+    String description,
+  ) async {
+    try {
+      await _firestore.collection('notes').doc(docId).update({
+        'title': title,
+        'description': description,
+      });
+      notifyListeners();
+      getNotes(context);
+    } catch (_e) {
+      ToastUtil.showToast(
+        context,
+        message: _e.toString(),
+        type: ToastType.error,
+      );
     }
   }
 }

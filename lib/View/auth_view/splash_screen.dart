@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:note_nest/constant/app_colors.dart';
 import 'package:note_nest/constant/app_images.dart';
 import 'package:note_nest/View/auth_view/signup_screen.dart';
@@ -95,7 +96,7 @@ class ButtonComponent extends StatelessWidget {
       child: GestureDetector(
         onTap: ontap,
         child: Container(
-          height: height * 0.1,
+          height: 60.h,
           width: double.infinity,
           decoration: BoxDecoration(color: AppColors.buttonBackGround),
           child: Center(
