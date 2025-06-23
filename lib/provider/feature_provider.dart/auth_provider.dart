@@ -13,7 +13,7 @@ class AuthenticationProvider with ChangeNotifier {
     try {
       isLoading = true;
       notifyListeners();
-     await FirebaseAuth.instance
+      await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password)
           .then(
             (value) => Navigator.push(
@@ -83,6 +83,14 @@ class AuthenticationProvider with ChangeNotifier {
   Future signOutProvider() async {
     try {
       await FirebaseAuth.instance.signOut();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  Future forgetPasswordProvider(email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
     } catch (e) {
       debugPrint(e.toString());
     }

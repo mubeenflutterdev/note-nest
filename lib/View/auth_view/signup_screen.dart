@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:note_nest/constant/app_colors.dart';
-import 'package:note_nest/View/user_view/home_screen.dart';
 
 import 'package:note_nest/View/auth_view/login_in_Screen.dart';
 import 'package:note_nest/View/auth_view/splash_screen.dart';

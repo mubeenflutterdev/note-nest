@@ -115,10 +115,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(width: 5),
                   GestureDetector(
                     onTap: () {
-                      authProvider.signInUser(
+                      Navigator.pushReplacement(
                         context,
-                        _emailControler.text.trim().toString(),
-                        _passwordControler.text.toString(),
+                        MaterialPageRoute(builder: (context) => SignupScreen()),
                       );
                     },
                     child: Text(

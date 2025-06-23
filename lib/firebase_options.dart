@@ -50,20 +50,21 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBH2UroiJFkd4UrKMFsK2Yu-zQ1blY4Ans',
-    appId: '1:518102527795:android:00accf42b20aa5b3519846',
-    messagingSenderId: '518102527795',
-    projectId: 'noteapp-347b2',
-    storageBucket: 'noteapp-347b2.firebasestorage.app',
+    apiKey: 'AIzaSyCzskA7Qev-kY6b_HIi9hL23M4bBqeKnT8',
+    appId: '1:586143236644:android:ddfd656ee0bbed04ad0eb1',
+    messagingSenderId: '586143236644',
+    projectId: 'pickuplines-82369',
+    storageBucket: 'pickuplines-82369.appspot.com',
   );
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBMPSjctjgSi4WylqbHH2xHivoblqPXNZ8',
-    appId: '1:518102527795:web:6819d10e94010407519846',
-    messagingSenderId: '518102527795',
-    projectId: 'noteapp-347b2',
-    authDomain: 'noteapp-347b2.firebaseapp.com',
-    storageBucket: 'noteapp-347b2.firebasestorage.app',
+    apiKey: 'AIzaSyDnEbmbnX4tlTGGmetli36zGot2qWcWvVM',
+    appId: '1:586143236644:web:b3fff513b126475aad0eb1',
+    messagingSenderId: '586143236644',
+    projectId: 'pickuplines-82369',
+    authDomain: 'pickuplines-82369.firebaseapp.com',
+    storageBucket: 'pickuplines-82369.appspot.com',
+    measurementId: 'G-Q75L6Q9NDJ',
   );
 
 }

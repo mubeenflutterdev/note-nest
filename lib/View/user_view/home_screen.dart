@@ -6,6 +6,8 @@ import 'package:note_nest/constant/app_colors.dart';
 import 'package:note_nest/models/note_model.dart';
 import 'package:note_nest/provider/feature_provider.dart/auth_provider.dart';
 import 'package:note_nest/provider/feature_provider.dart/note_provider.dart';
+import 'package:note_nest/provider/feature_provider.dart/profile_provider.dart';
+import 'package:note_nest/provider/ui_provider/add_profile_image_provider.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -65,9 +67,26 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
 
-                CircleAvatar(
-                  radius: 50.r,
-                  backgroundImage: AssetImage('assets/images/avatar.png'),
+                Stack(
+                  children: [
+                    CircleAvatar(
+                      radius: 50.r,
+                      backgroundImage: AssetImage('assets/images/avatar.png'),
+                    ),
+                    Positioned(
+                      bottom: 2.h,
+                      right: 1.w,
+                      child: GestureDetector(
+                        onTap: () {
+                          addImageSheet();
+                        },
+                        child: Icon(
+                          Icons.add_a_photo,
+                          color: AppColors.primaryColor,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 Text(
                   'Welcome , Oliva Grace',
@@ -102,17 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          // TextFormField(controller: _noteController),
-          // TextButton(
-          //   onPressed: () {
-          //     final noteText = _noteController.text.trim();
-          //     if (noteText.isNotEmpty) {
-          //       noteProvider.addNote(context, noteText);
-          //     }
-          //   },
-          //   child: Text('UPLOAD NOTE'),
-          // ),
-          // Uncomment to show notes list
+
           Expanded(
             child: Consumer<NoteProvider>(
               builder: (context, provider, child) {
@@ -207,6 +216,47 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         child: Icon(Icons.add, color: AppColors.primaryColor),
       ),
+    );
+  }
+
+  void addImageSheet() {
+    final profileProvider = context.read<AddProfileImageProvider>();
+
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          height: 150.h,
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ListTile(
+                leading: Icon(
+                  Icons.camera_alt,
+                  color: AppColors.profileBackGround,
+                ),
+
+                title: Text('Pick Image from Camera'),
+                onTap: () {
+                  profileProvider.pickerFromCamera(context);
+                },
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.photo_library_outlined,
+                  color: AppColors.greenColor,
+                ),
+                title: Text('Pick image from Gallery'),
+                onTap: () {
+                  profileProvider.pickerFromGallery(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
