@@ -83,17 +83,17 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               // sized box
               SizedBox(height: height * 0.09),
-              ButtonComponent(
-                text: "Register",
-                height: height,
-                width: width,
-                ontap: () async {
-                  String email = emailControler.text.toString();
-                  var password = passwordControler.text.toString();
-                  String name = nameControler.text.trim();
-                  authProvider().signUpUser(context, email, password, name);
-                },
-              ),
+              // ButtonComponent(
+              //   text: "Register",
+              //   height: height,
+              //   width: width,
+              //   ontap: () async {
+              //     String email = emailControler.text.toString();
+              //     var password = passwordControler.text.toString();
+              //     String name = nameControler.text.trim();
+              //     authProvider().signUpUser(context, email, password, name);
+              //   },
+              // ),
 
               SizedBox(height: height * 0.029),
 

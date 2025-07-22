@@ -1,10 +1,11 @@
 import 'dart:io';
 
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:note_nest/utils/toast_utils.dart';
 
-class AddProfileImageProvider with ChangeNotifier {
+class ImagePickerProvider with ChangeNotifier {
   File? selectedImage;
 
   void pickerFromGallery(BuildContext context) async {
@@ -15,8 +16,8 @@ class AddProfileImageProvider with ChangeNotifier {
 
       if (returnedImage != null) {
         selectedImage = File(returnedImage.path);
+
         notifyListeners();
-        print('**********************************${selectedImage?.path}');
       }
     } catch (_e) {
       print(_e.toString());
@@ -37,7 +38,6 @@ class AddProfileImageProvider with ChangeNotifier {
       if (returnedImage != null) {
         selectedImage = File(returnedImage.path);
         notifyListeners();
-        print('**********************************${selectedImage?.path}');
       }
     } catch (_e) {
       print(_e.toString());

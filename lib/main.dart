@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:note_nest/View/auth_view/signup_screen.dart';
+import 'package:note_nest/View/stylish_login_screen.dart';
 import 'package:note_nest/View/user_view/home_screen.dart';
 import 'package:note_nest/View/user_view/upload_user_info.dart';
 import 'package:note_nest/firebase_options.dart';
@@ -10,7 +11,8 @@ import 'package:note_nest/firebase_options.dart';
 import 'package:note_nest/provider/feature_provider.dart/auth_provider.dart';
 import 'package:note_nest/provider/feature_provider.dart/note_provider.dart';
 import 'package:note_nest/provider/feature_provider.dart/profile_provider.dart';
-import 'package:note_nest/provider/ui_provider/add_profile_image_provider.dart';
+import 'package:note_nest/provider/ui_provider/fun_provider.dart';
+import 'package:note_nest/provider/ui_provider/image_picker_provider.dart';
 
 import 'package:provider/provider.dart';
 
@@ -23,8 +25,9 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthenticationProvider()),
         ChangeNotifierProvider(create: (_) => NoteProvider()),
-        ChangeNotifierProvider(create: (_) => AddProfileImageProvider()),
+        ChangeNotifierProvider(create: (_) => ImagePickerProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
+        ChangeNotifierProvider(create: (_) => FunProvider()),
       ],
 
       /// for using screenUtils package
@@ -53,7 +56,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: MaterialApp(
-        home: user == null && user == '' ? SignupScreen() : HomeScreen(),
+        home: StylishLoginScreen(),
+        // home: user == null && user == '' ? SignupScreen() : HomeScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );

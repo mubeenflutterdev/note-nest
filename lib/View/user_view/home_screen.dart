@@ -7,7 +7,7 @@ import 'package:note_nest/models/note_model.dart';
 import 'package:note_nest/provider/feature_provider.dart/auth_provider.dart';
 import 'package:note_nest/provider/feature_provider.dart/note_provider.dart';
 import 'package:note_nest/provider/feature_provider.dart/profile_provider.dart';
-import 'package:note_nest/provider/ui_provider/add_profile_image_provider.dart';
+import 'package:note_nest/provider/ui_provider/image_picker_provider.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -32,6 +32,10 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     Future.microtask(() {
       Provider.of<NoteProvider>(context, listen: false).getNotes(context);
+      Provider.of<ProfileProvider>(
+        context,
+        listen: false,
+      ).getUserProfile(context);
     });
   }
 
@@ -69,10 +73,28 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 Stack(
                   children: [
-                    CircleAvatar(
-                      radius: 50.r,
-                      backgroundImage: AssetImage('assets/images/avatar.png'),
+                    Consumer<ProfileProvider>(
+                      builder: (context, provider, child) {
+                        if (provider.isLoading == true) {
+                          return CircularProgressIndicator();
+                        } else if (provider.profileImage == '') {
+                          return CircleAvatar(
+                            radius: 50.r,
+                            backgroundImage: AssetImage(
+                              'assets/images/avatar.png',
+                            ),
+                          );
+                        } else {
+                          return CircleAvatar(
+                            radius: 50.r,
+                            backgroundImage: NetworkImage(
+                              provider.profileImage.toString(),
+                            ),
+                          );
+                        }
+                      },
                     ),
+
                     Positioned(
                       bottom: 2.h,
                       right: 1.w,
@@ -220,8 +242,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void addImageSheet() {
-    final profileProvider = context.read<AddProfileImageProvider>();
-
+    final imagePickerProvider = context.read<ImagePickerProvider>();
+    final profileProvider = context.read<ProfileProvider>();
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -239,8 +261,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
 
                 title: Text('Pick Image from Camera'),
-                onTap: () {
-                  profileProvider.pickerFromCamera(context);
+                onTap: () async {
+                  imagePickerProvider.pickerFromCamera(context);
+                  profileProvider.updateProfileImagw(
+                    context,
+                    imagePickerProvider.selectedImage,
+                  );
                 },
               ),
               ListTile(
@@ -250,7 +276,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 title: Text('Pick image from Gallery'),
                 onTap: () {
-                  profileProvider.pickerFromGallery(context);
+                  imagePickerProvider.pickerFromGallery(context);
+                  profileProvider.updateProfileImagw(
+                    context,
+                    imagePickerProvider.selectedImage,
+                  );
                 },
               ),
             ],
